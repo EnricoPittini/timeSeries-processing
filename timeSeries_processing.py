@@ -13,12 +13,9 @@ There are three groups of functions.
     3. Processing functions.
 """
 
-import calendar
 import warnings
-from datetime import date, timedelta
-import pandas as pd
 import numpy as np
-from sklearn.preprocessing import MinMaxScaler
+import pandas as pd
 import matplotlib.pyplot as plt
 
 from model_selection import split_X_y
