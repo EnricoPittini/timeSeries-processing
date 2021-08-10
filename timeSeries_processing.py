@@ -109,10 +109,10 @@ def find_k_years_ago_days(day, k=1, n_days=11):
         Indicates which past year has to be considered (i.e. `k` years ago).
     n_days: int or str
         Indicates specifically which are the `k` years ago to select.
-        - If it's an int, it must be an odd positive number. Are selected the `n_days` centered in `day` but `k` years ago.
-        - If it's a str, it must be either "month" or "season". Are selected all the days in the same month/season but `k`
-          years ago.
-          (Are considered the meteorological seasons, and not the astronomical ones)
+            - If it's an int, it must be an odd positive number. Are selected the `n_days` centered in `day` but `k` years ago.
+            - If it's a str, it must be either "month" or "season". Are selected all the days in the same month/season but `k`
+              years ago.
+              (Are considered the meteorological seasons, and not the astronomical ones)
 
     Returns
     ----------
@@ -159,10 +159,10 @@ def find_current_year_days(day, n_days=11, current_day=False):
     day: pd.Timestamp
     n_days: int or str
         Indicates specifically which are the current year days to select.
-        - If it's an int, are selected the `n_days` preceding `day` .
-        - If it's a str, it must be either "month" or "season". Are selected all the days in the same month/season that
-          preced `day`.
-          (Are considered the meteorological seasons, and not the astronomical ones)
+            - If it's an int, are selected the `n_days` preceding `day` .
+            - If it's a str, it must be either "month" or "season". Are selected all the days in the same month/season that
+              preced `day`.
+              (Are considered the meteorological seasons, and not the astronomical ones)
     current_day: bool
         Indicates wheter select also the current day (i.e. `day`) or not.
 
@@ -477,9 +477,9 @@ def add_k_years_ago_statistics(df, df_k_years_ago, k=1, days_to_select=11, stat=
     bool), which is used to select the `k` years ago days: for each 'day' of `df` are selected the `k` years ago days of
     `df_k_years_ago` for which the function `days_to_select` returns True.
     So, `days_to_select` it's a predicate that, in a flexible way, select the `k` years ago days.
-    The signature of the function must be:
-        (day: pd.TimeStamp, df: pd.DataFrame, k_years_ago_day: pd.TimeStamp, df_k_years_ago: pd.DataFrame): bool ,
-    where
+    The signature of the function must be: (day: pd.TimeStamp, df: pd.DataFrame, k_years_ago_day: pd.TimeStamp,
+    df_k_years_ago: pd.DataFrame): bool.
+    Where:
         - `day` it's the current day of `df` ;
         - `df` it's the given DataFrame ;
         - `k_years_ago_day` it's the `k` years ago day contained in `df_k_years_ago`;
@@ -681,9 +681,9 @@ def add_current_year_statistics(df, df_current_year, days_to_select=11, current_
     bool), which is used to select the same year days: for each 'day' of `df` are selected the preceding same year days of
     `df_current_year` for which the function `days_to_select` returns True.
     So, `days_to_select` it's a predicate that, in a flexible way, select the same year days.
-    The signature of the function must be:
-        (day: pd.TimeStamp, df: pd.DataFrame, current_year_day: pd.TimeStamp, df_current_year: pd.DataFrame): bool ,
-    where
+    The signature of the function must be: (day: pd.TimeStamp, df: pd.DataFrame, current_year_day: pd.TimeStamp,
+    df_current_year: pd.DataFrame): bool.
+    Where:
         - `day` it's the current day of `df` ;
         - `df` it's the given DataFrame ;
         - `current_year_day` it's the preceding day of the same year contained in `df_current_year`;

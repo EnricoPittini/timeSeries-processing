@@ -1,0 +1,960 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>timeSeries_processing module &mdash; EEA-datasets-handler 1.0.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="timeSeries-processing" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> EEA-datasets-handler
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">timeSeries-processing</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">timeSeries_processing module</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">EEA-datasets-handler</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="modules.html">timeSeries-processing</a> &raquo;</li>
+        
+      <li>timeSeries_processing module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/timeSeries_processing.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-timeSeries_processing">
+<span id="timeseries-processing-module"></span><h1>timeSeries_processing module<a class="headerlink" href="#module-timeSeries_processing" title="Permalink to this headline">¶</a></h1>
+<p>Module which processes time series datasets.</p>
+<p>The timeseries are daily time series, i.e. the dates are always days. (Dates and days are used as synonyms).
+Are used the pandas built-in types:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>The dates are represented as pd.Timestamp.</p></li>
+<li><p>Vectors of dates are represented as pd.DatetimeIndex.</p></li>
+<li><p>The datasets are represented as pd.DataFrame, indexed by dates (i.e. DatetimeIndex).</p></li>
+</ul>
+</div></blockquote>
+<dl class="simple">
+<dt>There are three groups of functions.</dt><dd><ol class="arabic simple">
+<li><p>Functions to manipulate dates.</p></li>
+<li><p>Function to plot a time series.</p></li>
+<li><p>Processing functions.</p></li>
+</ol>
+</dd>
+</dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="timeSeries_processing.add_current_year_statistics">
+<span class="sig-prename descclassname"><span class="pre">timeSeries_processing.</span></span><span class="sig-name descname"><span class="pre">add_current_year_statistics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df_current_year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">days_to_select</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">11</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_day</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'mean'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">columns_to_select</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace_miss</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale_y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#timeSeries_processing.add_current_year_statistics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add, to a time series DataFrame, statistics computed on the other given time series DataFrame, with respect to the
+preceding days of the same year.</p>
+<p><cite>df_current_year</cite> should contain days of the same year with respect to the days of <cite>df</cite>.(Nevertheless, both <cite>df</cite> and
+<cite>df_current_year</cite> can contain multiple years).
+Let ‘m’ be the number of selected columns of <cite>df_current_year</cite> (by default all the columns, see the <cite>columns_to_select</cite>
+parameter).
+It’s built a new DataFrame, which is created from <cite>df</cite> adding <cite>m</cite> new columns. (The resulting DataFrame has the same
+index of <cite>df</cite>). These <cite>m</cite> new columns contain the values computed from the associated columns of <cite>df_current_year</cite>
+considering the preceding days of the same year of the ones in <cite>df</cite>.</p>
+<p>Let’s describe that more specifically. Let ‘day’ be a row of <cite>df</cite>, and ‘new_column’ be one of the ‘m’ new columns created
+in the resulting DataFrame. The value put in that column for that day is computed from the associated column of
+<cite>df_current_year</cite> considering the preceding days of the same year, in <cite>df_current_year</cite>, that are centered in ‘day’.
+(See the find_current_year_days function).
+Once are selected the preceding days of the same year from <cite>df_current_year</cite>, is computed an unique value for the new
+column ‘new_column’ and for the day ‘day’ applying a certain statistical aggregation (specified by the input parameter
+<cite>stat</cite>) on the values of these selected days in the column of <cite>df_current_year</cite> associated to ‘new_column’.</p>
+<p><cite>days_to_select</cite> specify which preceding same year days are selected from <cite>df_current_year</cite> for each ‘day’ of <cite>df</cite>. The
+semantic is quite similar to the parameter <cite>n_days</cite> of the find_current_year_days function (it can be either an integer
+or “month” or “season”).</p>
+<p>Actually, <cite>days_to_select</cite> can also be more powerful. <cite>days_to_select</cite> can be a predicate (i.e function that returns a
+bool), which is used to select the same year days: for each ‘day’ of <cite>df</cite> are selected the preceding same year days of
+<cite>df_current_year</cite> for which the function <cite>days_to_select</cite> returns True.
+So, <cite>days_to_select</cite> it’s a predicate that, in a flexible way, select the same year days.
+The signature of the function must be: (day: pd.TimeStamp, df: pd.DataFrame, current_year_day: pd.TimeStamp,
+df_current_year: pd.DataFrame): bool.
+Where:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><cite>day</cite> it’s the current day of <cite>df</cite> ;</p></li>
+<li><p><cite>df</cite> it’s the given DataFrame ;</p></li>
+<li><p><cite>current_year_day</cite> it’s the preceding day of the same year contained in <cite>df_current_year</cite>;</p></li>
+<li><p><cite>df_current_year</cite> it’s the other given DataFrame, containing same year days.</p></li>
+</ul>
+</div></blockquote>
+<p>The function returns True if and only if <cite>current_year_day</cite> is a day that has to be selected for <cite>day</cite>.</p>
+<p>For a certain ‘day’ of <cite>df</cite> can happend that it is not selected any preceding day of the same year. Which means that this
+‘day’ has a missing value for each of the ‘m’ new columns (i.e. ‘m’ missing values).
+In this case, if <cite>replace_miss</cite> it’s True, all the missing values are filled: the missing value for the new column
+‘new_column’ it’s filled computing the mean of all the preceding days of ‘day’ in the associated column in
+<cite>df_current_year</cite>. If there isn’t any preceding day in <cite>df_current_year</cite>, that ‘day’ is removed from the resulting
+DataFrame (the missing values can’t be filled).
+(The removed days are surely the first days in <cite>df</cite>).
+Otherwise, if <cite>replace_miss</cite> it’s False, the ‘m’ missing values are simply kept as Nan. (It’s not removed any day).</p>
+<p>If <cite>current_day</cite> is True, each ‘day’ of <cite>df</cite> is itself a potential same year day that can be selected. I.e. are not
+considered only the preceding days of the same year.
+(This is applied also in the selection of the days to use to fill the missing values).</p>
+<p>So, in the end, are created ‘m’ new columns in the resulting DataFrame, from the selected ‘m’ columns of
+<cite>df_current_year</cite>.
+From the selected column with name “col” of <cite>df_current_year</cite>, it’s created the correspondent column “current_year_col”
+in the resulting DataFrame.</p>
+<p>In addition, the resulting DataFrame is authomatically split into the X matrix and the y vector, which are respectively
+the matrix containing the explanatory features and the vector containing the response feature.
+(The response feature is the one target of prediction analysis tasks).</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl>
+<dt><strong>df: pd.DataFrame</strong></dt><dd><p>DataFrame indexed by days (i.e. pd.DatetimeIndex).</p>
+</dd>
+<dt><strong>df_current_year: pd.DataFrame</strong></dt><dd><p>DataFrame indexed by days (i.e. pd.DatetimeIndex). It should contain same year days with respect to the days in
+<cite>df</cite>.</p>
+</dd>
+<dt><strong>days_to_select: int or str or callable</strong></dt><dd><p>Indicates, for each day of <cite>df</cite>, which are the preceding days of the same year in <cite>df_current_year</cite> that are
+selected.
+It must be either an integer or “month” or “season” or a predicate (i.e. a function that return a boolean).
+The function signature must be</p>
+<blockquote>
+<div><p>(day: pd.TimeStamp, df: pd.DataFrame, current_year_day: pd.TimeStamp, df_current_year: pd.DataFrame): bool</p>
+</div></blockquote>
+</dd>
+<dt><strong>current_day: bool</strong></dt><dd><p>Indicates if, each day of <cite>df</cite>, can be potentially selected as a day of the same year for itself.</p>
+</dd>
+<dt><strong>stat: str</strong></dt><dd><p>Indicates the statistical aggregation to perform, for each day of <cite>df</cite>, on the selected same year days of
+<cite>df_current_year</cite>.
+It can be either “mean” or “min” or “max”.</p>
+</dd>
+<dt><strong>columns_to_select: list</strong></dt><dd><p>List of strings which indicates the columns of <cite>df_current_year</cite> that have to be taken into account.
+If it’s None, all the columns of <cite>df_current_year</cite> are considered.</p>
+</dd>
+<dt><strong>replace_miss: bool</strong></dt><dd><p>Indicates wheter fill the missing values or keep them as Nan.
+(The missing values are generated for each day of <cite>df</cite> for which is not selected any same year day in
+<cite>df_current_year</cite>).</p>
+</dd>
+<dt><strong>y_col: str</strong></dt><dd><p>Indicates which is the column of the resulting DataFrame to use as y column.</p>
+</dd>
+<dt><strong>scale_y: bool</strong></dt><dd><p>Indicates wheter scale or not the values of the response feature y.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>pd.DataFrame</dt><dd><p>The resulting DataFrame.</p>
+</dd>
+<dt>X: np.array</dt><dd><p>2-dimensional numpy array which contains the explanatory features.</p>
+</dd>
+<dt>y: np.array</dt><dd><p>1-dimensional numpy array which contains the response features.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>ValueError</dt><dd><p>When <cite>stat</cite> is not neither “mean” nor “min” nor “max”.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Warns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>UserWarning</dt><dd><ul class="simple">
+<li><p>When, for a day of <cite>df</cite>, is not selected any preceding day of the same year from <cite>df_current_year</cite>.</p></li>
+<li><p>When, for a day of <cite>df</cite>, are found less preceding days of the same year compared to the ones expected.
+(This can happen only if <cite>days_to_select</cite> is either an integer or “month” or “season”).</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="#timeSeries_processing.find_current_year_days" title="timeSeries_processing.find_current_year_days"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_current_year_days</span></code></a></dt><dd><p>returns, given a day, the selected preceding days of the same year.</p>
+</dd>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">model_selection.split_X_y</span></code></dt><dd><p>splits a DataFrame into X and y.</p>
+</dd>
+</dl>
+</div>
+<p class="rubric">Notes</p>
+<p>If add_current_year_statistics it’s applied multiple times with on the same <cite>df</cite> and <cite>df_current_year</cite>,
+potentially are created columns with the same name.
+For instance, if add_current_year_statistics it’s applied three times on the same DataFrames, from the <cite>df_current_year</cite>
+column “col” are potentially created three different columns with the same name “current_year_col”.
+To avoid that, add_current_year_statistics ensures that all the different columns with the same name are properly
+disambiguated, using progressive numbers. (E.g three different columns with same name “current_year_col”, became
+“current_year_col”, “current_year_col.1” and “current_year_col.2”).</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="timeSeries_processing.add_k_previous_days">
+<span class="sig-prename descclassname"><span class="pre">timeSeries_processing.</span></span><span class="sig-name descname"><span class="pre">add_k_previous_days</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale_y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#timeSeries_processing.add_k_previous_days" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add, to a time series DataFrame, features containing values of the specified column but related to the previous days.</p>
+<p>It’s built a new DataFrame, which is created from <cite>df</cite> adding <cite>k</cite> new columns. These <cite>k</cite> new columns contain the values
+of the column <cite>col_name</cite> but with regard to, respectively: the day before; the 2-day before; … ; the k-day before.
+In this way in the resulting DataFrame fro each day there are informations about the feature <cite>col_name</cite> up to <cite>k</cite> days
+before.
+These <cite>k</cite> columns are, respectively, called: “col_name_1”, “col_name_2”, …, “col_name_k”.</p>
+<p>The first <cite>k</cite> days are removed from the resulting DataFrame: that is beacuse for the first <cite>k</cite> days there isn’t enough
+information to build the new <cite>k</cite> columns.</p>
+<p>In addition, the resulting DataFrame is authomatically split into the X matrix and the y vector, which are respectively
+the matrix containing the explanatory features and the vector containing the response feature.
+(The response feature is the one target of prediction analysis tasks).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>df: pd.DataFrame</strong></dt><dd><p>DataFrame indexed by days (i.e. pd.DatetimeIndex).</p>
+</dd>
+<dt><strong>col_name: str</strong></dt><dd><p>Indicates which is the column from which build the <cite>k</cite> new columns.</p>
+</dd>
+<dt><strong>k: int</strong></dt><dd><p>Indicates how many previous days are to take into account (i.e. how many new columns are built).</p>
+</dd>
+<dt><strong>y_col: str</strong></dt><dd><p>Indicates which is the column of the resulting DataFrame to use as y column.</p>
+</dd>
+<dt><strong>scale_y: bool</strong></dt><dd><p>Indicates wheter scale or not the values of the response feature y.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>pd.DataFrame</dt><dd><p>The resulting DataFrame.</p>
+</dd>
+<dt>X: np.array</dt><dd><p>2-dimensional numpy array which contains the explanatory features.</p>
+</dd>
+<dt>y: np.array</dt><dd><p>1-dimensional numpy array which contains the response features.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>ValueError</dt><dd><p>When <cite>df</cite> does not contain a contigous sequence of days (i.e. there are missing days in <cite>df</cite>).</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">model_selection.split_X_y</span></code></dt><dd><p>splits a DataFrame into X and y.</p>
+</dd>
+</dl>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="timeSeries_processing.add_k_years_ago_statistics">
+<span class="sig-prename descclassname"><span class="pre">timeSeries_processing.</span></span><span class="sig-name descname"><span class="pre">add_k_years_ago_statistics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df_k_years_ago</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">days_to_select</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">11</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'mean'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">columns_to_select</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace_miss</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale_y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#timeSeries_processing.add_k_years_ago_statistics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add, to a time series DataFrame, statistics computed on the other given time series DataFrame, but with respect to the
+days of k years ago.</p>
+<p><cite>df_k_years_ago</cite> should contain days of <cite>k</cite> years ago with respect to the days of <cite>df</cite>.(Nevertheless, both <cite>df</cite> and
+<cite>df_k_years_ago</cite> can contain multiple years).
+Let ‘m’ be the number of selected columns of <cite>df_k_years_ago</cite> (by default all the columns, see the <cite>columns_to_select</cite>
+parameter).
+It’s built a new DataFrame, which is created from <cite>df</cite> adding <cite>m</cite> new columns. (The resulting DataFrame has the same
+index of <cite>df</cite>). These <cite>m</cite> new columns contain the values computed from the associated columns of <cite>df_k_years_ago</cite>
+considering the days of <cite>k</cite> years before the ones in <cite>df</cite>.</p>
+<p>Let’s describe that more specifically. Let ‘day’ be a row of <cite>df</cite>, and ‘new_column’ be one of the ‘m’ new columns created
+in the resulting DataFrame. The value put in that column for that day is computed from the associated column of
+<cite>df_k_years_ago</cite> considering the days of <cite>df_k_years_ago</cite> that are centered in <cite>day</cite> but k years ago.
+(See the find_k_years_ago_days function).
+Once are selected the <cite>k</cite> years ago days in <cite>df_k_years_ago</cite>, is computed an unique value for the new column ‘new_column’
+and for the day ‘day’ applying a certain statistical aggregation (specified by the input parameter <cite>stat</cite>) on the values
+of these selected days in the column of <cite>df_k_years_ago</cite> associated to ‘new_column’.</p>
+<p><cite>days_to_select</cite> specify which <cite>k</cite> years ago days in <cite>df_k_years_ago</cite> are selected for each ‘day’ of <cite>df</cite>. The semantic
+is quite similar to the parameter <cite>n_days</cite> of the find_k_years_ago_days function (it can be either an odd integer or
+“month” or “season”).</p>
+<p>Actually, <cite>days_to_select</cite> can also be more powerful. <cite>days_to_select</cite> can be a predicate (i.e function that returns a
+bool), which is used to select the <cite>k</cite> years ago days: for each ‘day’ of <cite>df</cite> are selected the <cite>k</cite> years ago days of
+<cite>df_k_years_ago</cite> for which the function <cite>days_to_select</cite> returns True.
+So, <cite>days_to_select</cite> it’s a predicate that, in a flexible way, select the <cite>k</cite> years ago days.
+The signature of the function must be: (day: pd.TimeStamp, df: pd.DataFrame, k_years_ago_day: pd.TimeStamp,
+df_k_years_ago: pd.DataFrame): bool.
+Where:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><cite>day</cite> it’s the current day of <cite>df</cite> ;</p></li>
+<li><p><cite>df</cite> it’s the given DataFrame ;</p></li>
+<li><p><cite>k_years_ago_day</cite> it’s the <cite>k</cite> years ago day contained in <cite>df_k_years_ago</cite>;</p></li>
+<li><p><cite>df_k_years_ago</cite> it’s the other given DataFrame, containing <cite>k</cite> years ago days.</p></li>
+</ul>
+</div></blockquote>
+<p>The function returns True if and only if <cite>k_years_ago_day</cite> is a day that has to be selected for <cite>day</cite>.</p>
+<p>For a certain ‘day’ of <cite>df</cite> can happend that it is not selected any <cite>k</cite> years ago day. Which means that this ‘day’ has a
+missing value for each of the ‘m’ new columns (i.e. ‘m’ missing values).
+In this case, if <cite>replace_miss</cite> it’s True, all the missing values are filled: the missing value for the new column
+‘new_column’ it’s filled computing the mean of all the values in the associated column in <cite>df_k_years_ago</cite>.
+Otherwise, if <cite>replace_miss</cite> it’s False, the ‘m’ missing values are simply kept as Nan.</p>
+<p>So, in the end, are created ‘m’ new columns in the resulting DataFrame, from the selected ‘m’ columns of
+<cite>df_k_years_ago</cite>.
+From the selected column with name “col” of <cite>df_k_years_ago</cite>, it’s created the correspondent column “k_years_ago_col” in
+the resulting DataFrame.</p>
+<p>In addition, the resulting DataFrame is authomatically split into the X matrix and the y vector, which are respectively
+the matrix containing the explanatory features and the vector containing the response feature.
+(The response feature is the one target of prediction analysis tasks).</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl>
+<dt><strong>df: pd.DataFrame</strong></dt><dd><p>DataFrame indexed by days (i.e. pd.DatetimeIndex).</p>
+</dd>
+<dt><strong>df_k_years_ago: pd.DataFrame</strong></dt><dd><p>DataFrame indexed by days (i.e. pd.DatetimeIndex). It should contain <cite>k</cite> years ago days with respect to the days in
+<cite>df</cite>.</p>
+</dd>
+<dt><strong>k: int</strong></dt><dd><p>Indicates which previous year, with respect to the days in <cite>df</cite>, is to be taken into account (i.e. <cite>k</cite> years ago).
+It must be a positive integer.</p>
+</dd>
+<dt><strong>days_to_select: int or str or callable</strong></dt><dd><p>Indicates, for each day of <cite>df</cite>, which are the <cite>k</cite> years ago days in <cite>df_k_years_ago</cite> that are selected.
+It must be either an odd integer or “month” or “season” or a predicate (i.e. a function that return a boolean).
+The function signature must be</p>
+<blockquote>
+<div><p>(day: pd.TimeStamp, df: pd.DataFrame, k_years_ago_day: pd.TimeStamp, df_k_years_ago: pd.DataFrame): bool</p>
+</div></blockquote>
+</dd>
+<dt><strong>stat: str</strong></dt><dd><p>Indicates the statistical aggregation to perform, for each day of <cite>df</cite>, on the selected <cite>k</cite> years ago days of
+<cite>df_k_years_ago</cite>.
+It can be either “mean” or “min” or “max”.</p>
+</dd>
+<dt><strong>columns_to_select: list</strong></dt><dd><p>List of strings which indicates the columns of <cite>df_k_years_ago</cite> that have to be taken into account.
+If it’s None, all the columns of <cite>df_k_years_ago</cite> are considered.</p>
+</dd>
+<dt><strong>replace_miss: bool</strong></dt><dd><p>Indicates wheter fill the missing values or keep them as Nan.
+(The missing values are generated for each day of <cite>df</cite> for which is not selected any <cite>k</cite> years ago day in
+<cite>df_k_years_ago</cite>).</p>
+</dd>
+<dt><strong>y_col: str</strong></dt><dd><p>Indicates which is the column of the resulting DataFrame to use as y column.</p>
+</dd>
+<dt><strong>scale_y: bool</strong></dt><dd><p>Indicates wheter scale or not the values of the response feature y.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>pd.DataFrame</dt><dd><p>The resulting DataFrame.</p>
+</dd>
+<dt>X: np.array</dt><dd><p>2-dimensional numpy array which contains the explanatory features.</p>
+</dd>
+<dt>y: np.array</dt><dd><p>1-dimensional numpy array which contains the response features.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>ValueError</dt><dd><ul class="simple">
+<li><p>When <cite>k</cite> is not a positive integer.</p></li>
+<li><p>When <cite>stat</cite> is not neither “mean” nor “min” nor “max”.</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Warns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>UserWarning</dt><dd><ul class="simple">
+<li><p>When, for a day of <cite>df</cite>, is not selected any <cite>k</cite> years ago days in <cite>df_k_years_ago</cite>.</p></li>
+<li><p>When, for a day of <cite>df</cite>, are found less <cite>k</cite> years ago days compared to the ones expected.
+(This can happen only if <cite>days_to_select</cite> is either an odd integer or “month” or “season”).</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="#timeSeries_processing.find_k_years_ago_days" title="timeSeries_processing.find_k_years_ago_days"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_k_years_ago_days</span></code></a></dt><dd><p>returns, given a day, the selected days of k years ago.</p>
+</dd>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">model_selection.split_X_y</span></code></dt><dd><p>splits a DataFrame into X and y.</p>
+</dd>
+</dl>
+</div>
+<p class="rubric">Notes</p>
+<p>If add_k_years_ago_statistics it’s applied multiple times with the same <cite>k</cite> on the same <cite>df</cite> and <cite>df_k_years_ago</cite>,
+potentially are created columns with the same name.
+For instance, if add_k_years_ago_statistics it’s applied three times with the same <cite>k</cite> on the same DataFrames, from the
+<cite>df_k_years_ago</cite> column “col” are potentially created three different columns with the same name “k_years_ago_col”.
+To avoid that, add_k_years_ago_statistics ensures that all the different columns with the same name are properly
+disambiguated, using progressive numbers. (E.g three different columns with same name “k_years_ago_col”, became
+“k_years_ago_col”, “k_years_ago_col.1” and “k_years_ago_col.2”).</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="timeSeries_processing.add_timeSeries_dataframe">
+<span class="sig-prename descclassname"><span class="pre">timeSeries_processing.</span></span><span class="sig-name descname"><span class="pre">add_timeSeries_dataframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df_other</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale_y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#timeSeries_processing.add_timeSeries_dataframe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add to a time series DataFrame another time series DataFrame.</p>
+<p>The two DataFrames are concatenated in a new DataFrame, i.e. the resulting DataFrame contains all the columns in <cite>df</cite> and
+<cite>df_other</cite>.
+This concatenation is done with respect to the former: this means that all the days of <cite>df</cite> are kept, while only the days
+of <cite>df_other</cite> that are also in <cite>df</cite> are kept.</p>
+<p>In addition, the resulting DataFrame is authomatically split into the X matrix and the y vector, which are respectively
+the matrix containing the explanatory features and the vector containing the response feature.
+(The response feature is the one target of prediction analysis tasks).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>df: pd.DataFrame</strong></dt><dd><p>DataFrame indexed by days (i.e. pd.DatetimeIndex).</p>
+</dd>
+<dt><strong>df_other: pd.DataFrame</strong></dt><dd><p>Other DataFrame indexed by days (i.e. pd.DatetimeIndex), to add to the former.</p>
+</dd>
+<dt><strong>y_col: str</strong></dt><dd><p>Indicates which is the column of the resulting DataFrame to use as y column.</p>
+</dd>
+<dt><strong>scale_y: bool</strong></dt><dd><p>Indicates wheter scale or not the values of the response feature y.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>pd.DataFrame</dt><dd><p>The DataFrame resulting from the concatenation.</p>
+</dd>
+<dt>X: np.array</dt><dd><p>2-dimensional numpy array which contains the explanatory features.</p>
+</dd>
+<dt>y: np.array</dt><dd><p>1-dimensional numpy array which contains the response features.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">model_selection.split_X_y</span></code></dt><dd><p>splits a DataFrame into X and y.</p>
+</dd>
+</dl>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="timeSeries_processing.add_upTo_k_years_ago_statistics">
+<span class="sig-prename descclassname"><span class="pre">timeSeries_processing.</span></span><span class="sig-name descname"><span class="pre">add_upTo_k_years_ago_statistics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df_upTo_k_years_ago</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_year</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">days_to_select</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">11</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_day</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'mean'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">columns_to_select</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace_miss</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale_y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#timeSeries_processing.add_upTo_k_years_ago_statistics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add, to a time series DataFrame, statistics computed on the other given time series DataFrame, but with respect to the
+days of up to k years ago.</p>
+<p><cite>df_upTo_k_years_ago</cite> should contain days of up to <cite>k</cite> years ago with respect to the days of <cite>df</cite>.(Nevertheless, <cite>df</cite>
+can contain multiple years).
+Let ‘m’ be the number of selected columns of <cite>df_upTo_k_years_ago</cite> (by default all the columns, see the
+<cite>columns_to_select</cite>  parameter).
+It’s built a new DataFrame, which is created from <cite>df</cite> adding <cite>m</cite> new columns. (The resulting DataFrame has the same
+index of <cite>df</cite>). These <cite>m</cite> new columns contain the values computed from the associated columns of <cite>df_upTo_k_years_ago</cite>
+considering the days of up to <cite>k</cite> years before the ones in <cite>df</cite>.</p>
+<p>Let ‘day’ be a row of <cite>df</cite>, and ‘new_column’ be one of the ‘m’ new columns created in the resulting DataFrame. The value
+put in that column for that day is computed from the associated column of <cite>df_upTo_k_years_ago</cite> considering the days of
+<cite>df_upTo_k_years_ago</cite> that are centered in <cite>day</cite> but up to <cite>k</cite> years ago.
+Let’s see that more in depth. For each integer ‘i’ from 1 to <cite>k</cite>, are selected the ‘i’ years ago days centered in ‘day’
+and contained in <cite>df_upTo_k_years_ago</cite> (see the find_k_years_ago_days function): from these selected ‘i’ years ago days,
+is computed an unique value applying a certain statistical aggregation (specified by the input parameter <cite>stat</cite>) on the
+values of these selected days in the column of <cite>df_k_years_ago</cite> associated to ‘new_column’.
+In this way, for ‘day’ and ‘new_column’ are computed <cite>k</cite> values, for each integer ‘i’ from 1 to <cite>k</cite>. In the end, is
+computed an unique value for the new column ‘new_column’ and for the day ‘day’ applying the same statistical aggregation
+(i.e. <cite>stat</cite>) on these <cite>k</cite> values.
+On the whole, is computed an aggregation with 2 levels on the days of up to <cite>k</cite> years ago with respect to ‘day’.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Is computed an aggregation on the selected days of ‘i’ years ago days, for i between 1 and <cite>k</cite>.</p></li>
+<li><p>Is computed an aggregation on the <cite>k</cite> values computed for each of the previous years, up to <cite>k</cite> years ago.</p></li>
+</ul>
+</div></blockquote>
+<p>Basically, this is implemented applying <cite>k</cite> times the function add_k_years_ago_statistics: for each ‘i’ between 1 and
+<cite>k</cite>, is applied  add_k_years_ago_statistics with his input parameter ‘k’ equal to ‘i’.
+It’s applied add_k_years_ago_statistics on all the previous years, up to <cite>k</cite> years ago.
+So, the add_upTo_k_years_ago_statistics it’s nothing else than an extesion of the add_k_years_ago_statistics function.
+(See add_k_years_ago_statistics).
+The meaning of the input parameters <cite>days_to_select</cite>, <cite>stat</cite>, <cite>replace_miss</cite>, …, are the same of the ones in
+add_k_years_ago_statistics.</p>
+<p>In particular, <cite>days_to_select</cite> specify which ‘i’ years ago days in <cite>df_upTo_k_years_ago</cite> are selected for each ‘day’ of
+<cite>df</cite>, for ‘i’ from 1 to <cite>k</cite>. It can be either an odd integer or “month” or “season” or a predicate (i.e. function that
+returns a bool).
+The signature of the function must be:</p>
+<blockquote>
+<div><p>(day: pd.TimeStamp, df: pd.DataFrame, i_years_ago_day: pd.TimeStamp, df_k_years_ago: pd.DataFrame): bool.</p>
+</div></blockquote>
+<p>If <cite>current_year</cite> is True, is taken into account also the current year, and not only the preceding years up to <cite>k</cite> years
+ago.
+This means that, for each ‘day’ of <cite>df</cite>, are computed <cite>k`+1 values: from the current year; from the previous year; …;
+from `k</cite> years ago. These <cite>k`+1 values are aggregated in a single value.
+The value computed from the current year is calculated using the add_current_year_statistics function (see
+add_current_year_statistics).
+The meaning of the input parameters `days_to_select</cite>, <cite>current_day</cite>, <cite>stat</cite>, <cite>replace_miss</cite>, …, are the same of the
+ones in add_current_year_statistics.
+(If <cite>current_year</cite> is True, is applied add_current_year_statistics on time, and then is applied
+add_k_years_ago_statistics <cite>k</cite> times).</p>
+<p>So, in the end, are created ‘m’ new columns in the resulting DataFrame, from the selected ‘m’ columns of
+<cite>df_upTo_k_years_ago</cite>.
+From the selected column with name “col” of <cite>df_upTo_k_years_ago</cite>, it’s created the correspondent column
+“upTo_k_years_ago_col” in the resulting DataFrame.</p>
+<p>In addition, the resulting DataFrame is authomatically split into the X matrix and the y vector, which are respectively
+the matrix containing the explanatory features and the vector containing the response feature.
+(The response feature is the one target of prediction analysis tasks).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>df: pd.DataFrame</strong></dt><dd><p>DataFrame indexed by days (i.e. pd.DatetimeIndex).</p>
+</dd>
+<dt><strong>df_upTo_k_years_ago: pd.DataFrame</strong></dt><dd><p>DataFrame indexed by days (i.e. pd.DatetimeIndex). It should contain up to <cite>k</cite> years ago days with respect to the
+days in <cite>df</cite>.</p>
+</dd>
+<dt><strong>k: int</strong></dt><dd><p>Indicates how many previous years have to be taken into account (i.e. are taken into account all the previous years
+up to <cite>k</cite> years ago).
+It must be a positive integer.</p>
+</dd>
+<dt><strong>current_year: bool</strong></dt><dd><p>Indicates wheter consider also the current year or not: in the former case, are taken into account all the years from
+the current up to <cite>k</cite> years ago.</p>
+</dd>
+<dt><strong>days_to_select: int or str or callable</strong></dt><dd><p>Indicates, for each day of <cite>df</cite>, which are the days in <cite>df_upTo_k_years_ago</cite> that have to be selected, for each year
+from the previous up to <cite>k</cite> years ago.
+It must be either an odd integer or “month” or “season” or a predicate (i.e. a function that return a boolean).
+If <cite>current_year</cite> is True, this selection is also applied on the days of the same year.</p>
+</dd>
+<dt><strong>current_day: bool</strong></dt><dd><p>Indicates if, each day of <cite>df</cite>, can be potentially selected as a day of the same year for itself.
+This parameter is considered only if <cite>current_year</cite> is True.</p>
+</dd>
+<dt><strong>stat: str</strong></dt><dd><p>Indicates the statistical aggregation to perform. It can be either “mean” or “min” or “max”.
+This is applied in 2 levels: both for each previous year (up to <cite>k</cite> years ago) and for the aggregation of the <cite>k</cite>
+computed values (<cite>k`+1 if `current_year</cite> is True).</p>
+</dd>
+<dt><strong>columns_to_select: list</strong></dt><dd><p>List of strings which indicates the columns of <cite>df_upTo_k_years_ago</cite> that have to be taken into account.
+If it’s None, all the columns of <cite>df_upTo_k_years_ago</cite> are considered.</p>
+</dd>
+<dt><strong>replace_miss: bool</strong></dt><dd><p>Indicates wheter fill the missing values.</p>
+</dd>
+<dt><strong>y_col: str</strong></dt><dd><p>Indicates which is the column of the resulting DataFrame to use as y column.</p>
+</dd>
+<dt><strong>scale_y: bool</strong></dt><dd><p>Indicates wheter scale or not the values of the response feature y.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>pd.DataFrame</dt><dd><p>The resulting DataFrame.</p>
+</dd>
+<dt>X: np.array</dt><dd><p>2-dimensional numpy array which contains the explanatory features.</p>
+</dd>
+<dt>y: np.array</dt><dd><p>1-dimensional numpy array which contains the response features.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>ValueError</dt><dd><ul class="simple">
+<li><p>When <cite>k</cite> is not a positive integer.</p></li>
+<li><p>When <cite>stat</cite> is not neither “mean” nor “min” nor “max”.</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="#timeSeries_processing.find_k_years_ago_days" title="timeSeries_processing.find_k_years_ago_days"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_k_years_ago_days</span></code></a></dt><dd><p>returns, given a day, the selected days of k years ago.</p>
+</dd>
+<dt><a class="reference internal" href="#timeSeries_processing.add_k_years_ago_statistics" title="timeSeries_processing.add_k_years_ago_statistics"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_k_years_ago_statistics</span></code></a></dt><dd><p>adds, to a time series DataFrame, statistics computed on the other given time series DataFrame, but with respect to the days of k years ago.</p>
+</dd>
+<dt><a class="reference internal" href="#timeSeries_processing.find_current_year_days" title="timeSeries_processing.find_current_year_days"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_current_year_days</span></code></a></dt><dd><p>returns, given a day, the selected preceding days of the same year.</p>
+</dd>
+<dt><a class="reference internal" href="#timeSeries_processing.add_current_year_statistics" title="timeSeries_processing.add_current_year_statistics"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_current_year_statistics</span></code></a></dt><dd><p>adds, to a time series DataFrame, statistics computed on the other given time series DataFrame, with respect to the preceding days of the same year.</p>
+</dd>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">model_selection.split_X_y</span></code></dt><dd><p>splits a DataFrame into X and y.</p>
+</dd>
+</dl>
+</div>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>If add_upTo_k_years_ago_statistics it’s applied multiple times with the same <cite>k</cite> on the same <cite>df</cite> and
+<cite>df_upTo_k_years_ago</cite>, potentially are created columns with the same name.
+For instance, if add_upTo_k_years_ago_statistics it’s applied three times with the same <cite>k</cite> on the same DataFrames,
+from the <cite>df_upTo_k_years_ago</cite> column “col” are potentially created three different columns with the same name
+“upTo_k_years_ago_col”.
+To avoid that, add_upTo_k_years_ago_statistics ensures that all the different columns with the same name are properly
+disambiguated, using progressive numbers. (E.g three different columns with same name “upTo_k_years_ago_col”, became
+“upTo_k_years_ago_col”, “upTo_k_years_ago_col.1” and “upTo_k_years_ago_col.2”).</p></li>
+<li><p>The meaning of <cite>replace_miss</cite> is the same of add_k_years_ago_statistics. For each previous year up to <cite>k</cite> years ago, if
+is not found any selected day and <cite>replace_miss</cite> is True, is computed the mean of the whole <cite>df_upTo_k_years_ago</cite>
+DataFrame: this is the value calculated for that year (value that will be aggregated with the other <cite>k</cite>).
+This same concept is valid also for the current year, if <cite>current_year</cite> is True.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="timeSeries_processing.find_current_year_days">
+<span class="sig-prename descclassname"><span class="pre">timeSeries_processing.</span></span><span class="sig-name descname"><span class="pre">find_current_year_days</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">day</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_days</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">11</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_day</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#timeSeries_processing.find_current_year_days" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return, given a day, the preceding days of the same year which are centered in that day.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>day: pd.Timestamp</strong></dt><dd></dd>
+<dt><strong>n_days: int or str</strong></dt><dd><dl class="simple">
+<dt>Indicates specifically which are the current year days to select.</dt><dd><ul class="simple">
+<li><p>If it’s an int, are selected the <cite>n_days</cite> preceding <cite>day</cite> .</p></li>
+<li><p>If it’s a str, it must be either “month” or “season”. Are selected all the days in the same month/season that
+preced <cite>day</cite>.
+(Are considered the meteorological seasons, and not the astronomical ones)</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt><strong>current_day: bool</strong></dt><dd><p>Indicates wheter select also the current day (i.e. <cite>day</cite>) or not.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>pd.DatetimeIndex</dt><dd><p>Vector of the selected days.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>ValueError</dt><dd><p>When <cite>n_days</cite> it’s neither an integer nor “month” nor “season”.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="timeSeries_processing.find_k_years_ago_days">
+<span class="sig-prename descclassname"><span class="pre">timeSeries_processing.</span></span><span class="sig-name descname"><span class="pre">find_k_years_ago_days</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">day</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_days</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">11</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#timeSeries_processing.find_k_years_ago_days" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return, given a day, the days which are centered in that day but k years ago.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>day: pd.Timestamp</strong></dt><dd></dd>
+<dt><strong>k: int</strong></dt><dd><p>Indicates which past year has to be considered (i.e. <cite>k</cite> years ago).</p>
+</dd>
+<dt><strong>n_days: int or str</strong></dt><dd><dl class="simple">
+<dt>Indicates specifically which are the <cite>k</cite> years ago to select.</dt><dd><ul class="simple">
+<li><p>If it’s an int, it must be an odd positive number. Are selected the <cite>n_days</cite> centered in <cite>day</cite> but <cite>k</cite> years ago.</p></li>
+<li><p>If it’s a str, it must be either “month” or “season”. Are selected all the days in the same month/season but <cite>k</cite>
+years ago.
+(Are considered the meteorological seasons, and not the astronomical ones)</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>pd.DatetimeIndex</dt><dd><p>Vector of the selected days.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>ValueError</dt><dd><p>When <cite>n_days</cite> it’s neither an odd positive integer nor “month” nor “season”.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="timeSeries_processing.find_missing_days">
+<span class="sig-prename descclassname"><span class="pre">timeSeries_processing.</span></span><span class="sig-name descname"><span class="pre">find_missing_days</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">days</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#timeSeries_processing.find_missing_days" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return, given a vector of days, his missing days.</p>
+<p>More specifically, the missing days are the ones which are not present in the contigous sequence of days in <cite>days</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>days: pd.DatetimeIndex</strong></dt><dd><p>Vector of dates.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>pd.DatetimeIndex</dt><dd><p>Vector of missing days.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="timeSeries_processing.find_same_month_days">
+<span class="sig-prename descclassname"><span class="pre">timeSeries_processing.</span></span><span class="sig-name descname"><span class="pre">find_same_month_days</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">day</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#timeSeries_processing.find_same_month_days" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return, given a day, all the days which are in the same month.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>day: pd.Timestamp</strong></dt><dd></dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>pd.DatetimeIndex</dt><dd><p>Vector of the days in the same month.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="timeSeries_processing.find_same_season_days">
+<span class="sig-prename descclassname"><span class="pre">timeSeries_processing.</span></span><span class="sig-name descname"><span class="pre">find_same_season_days</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">day</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#timeSeries_processing.find_same_season_days" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return, given a day, all the days which are in the same season.</p>
+<p>Are considered the meteorological seasons, and not the astronomical ones.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>day: pd.Timestamp</strong></dt><dd></dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>pd.DatetimeIndex</dt><dd><p>Vector of the days in the same season.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="timeSeries_processing.group_days_by">
+<span class="sig-prename descclassname"><span class="pre">timeSeries_processing.</span></span><span class="sig-name descname"><span class="pre">group_days_by</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">days</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">criterion</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#timeSeries_processing.group_days_by" title="Permalink to this definition">¶</a></dt>
+<dd><p>Group the given vetor of days according to the given criterion.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>days: pd.DatetimeIndex</strong></dt><dd></dd>
+<dt><strong>criterion: str</strong></dt><dd><p>Indicates how to group the given days. It can be either “year” or “month” or “season”.
+(Are considered the meteorological seasons, and not the astronomical ones)</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl>
+<dt>list</dt><dd><p>List of pairs (i.e. tuples).
+Each pair is a group of days.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>The first element is a string which represents the group name (i.e. group label).</p></li>
+<li><p>The second element is the vector of days in that group, i.e. it’s a pd.DatetimeIndex.</p></li>
+</ul>
+</div></blockquote>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>ValueError</dt><dd><p>When <cite>criterion</cite> it’s neither an “year” nor “month” nor “season”.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>For the sake of completeness, it’s important to say that if <cite>critetion</cite> is either “month” or “season”, are grouped
+togheter also days of different years.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="timeSeries_processing.plot_timeSeries">
+<span class="sig-prename descclassname"><span class="pre">timeSeries_processing.</span></span><span class="sig-name descname"><span class="pre">plot_timeSeries</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">divide</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xlabel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Days'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Time</span> <span class="pre">series</span> <span class="pre">values'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(9,</span> <span class="pre">9)</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#timeSeries_processing.plot_timeSeries" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot a column of the given time series DataFrame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>df: pd.DataFrame</strong></dt><dd><p>DataFrame indexed by days (i.e. pd.DatetimeIndex).</p>
+</dd>
+<dt><strong>col_name: str</strong></dt><dd><p>Indicates the specified column to plot.</p>
+</dd>
+<dt><strong>divide: str</strong></dt><dd><p>Indicates if and how divide the values plotted.
+It can be either None, “year”, “month” or “season”. (Are considered the meteorological seasons, and not the
+astronomical ones).
+That division is simply made graphically using different colors.</p>
+</dd>
+<dt><strong>xlabel: str</strong></dt><dd><p>Label to put in the x axis.</p>
+</dd>
+<dt><strong>line: bool</strong></dt><dd><p>Indicates wheter to connect the points with a line.</p>
+</dd>
+<dt><strong>title: str</strong></dt><dd><p>Title of the plot.</p>
+</dd>
+<dt><strong>figsize: tuple</strong></dt><dd><p>Dimensions of the plot.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>matplotlib.axes.Axes</dt><dd><p>The matplotlib Axes where it has been made the plot.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="modules.html" class="btn btn-neutral float-left" title="timeSeries-processing" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Enrico Pittini.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
