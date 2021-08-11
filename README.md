@@ -9,7 +9,7 @@ Are used the [pandas](https://pandas.pydata.org/) built-in types:
 
 There are three groups of functions.
 1. Functions to manipulate dates.
-2. Function to plot a time series.
+2. Function to plot a time series (using [matplotlib](https://matplotlib.org/stable/index.html)).
 3. Processing functions.
 
 This library is part of my bachelor thesis, do check it out the other works.
@@ -23,6 +23,12 @@ Use the package manager [pip](https://pip.pypa.io/en/stable/) to install timeSer
 ```bash
 pip install timeSeries-processing
 ```
+
+## References
+- [numpy](https://numpy.org/), the fundamental package for scientific computing with Python.
+- [matplotlib](https://matplotlib.org/stable/index.html) is a comprehensive library for creating static, animated, and interactive visualizations in Python.
+- [pandas](https://pandas.pydata.org/) is a fast, powerful, flexible and easy to use open source data analysis and manipulation tool,
+built on top of the Python programming language.
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
