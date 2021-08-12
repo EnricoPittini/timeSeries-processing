@@ -9,8 +9,7 @@ setup(
   author="Enrico Pittini",
   author_email="pittinienrico@hotmail.it",
   license="MIT",
-  install_requires=['numpy',
-                    'matplotlib',
+  install_requires=['matplotlib',
                     'pandas',
-                    'ml-model-selection' ],
+                    'sklearn' ],
 )

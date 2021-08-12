@@ -15,11 +15,9 @@ There are three groups of functions.
 
 import warnings
 
-import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-
-from model_selection import split_X_y
+from sklearn.preprocessing import MinMaxScaler
 
 warnings.simplefilter("always")
 
@@ -109,9 +107,10 @@ def find_k_years_ago_days(day, k=1, n_days=11):
         Indicates which past year has to be considered (i.e. `k` years ago).
     n_days: int or str
         Indicates specifically which are the `k` years ago to select.
-            - If it's an int, it must be an odd positive number. Are selected the `n_days` centered in `day` but `k` years ago.
-            - If it's a str, it must be either "month" or "season". Are selected all the days in the same month/season but `k`
-              years ago.
+            - If it's an int, it must be an odd positive number. Are selected the `n_days` centered in `day` but `k` years
+              ago.
+            - If it's a str, it must be either "month" or "season". Are selected all the days in the same month/season but
+              `k` years ago.
               (Are considered the meteorological seasons, and not the astronomical ones)
 
     Returns
@@ -329,6 +328,50 @@ def plot_timeSeries(df, col_name, divide=None, xlabel="Days", line=True, title="
 # PROCESSING FUNCTIONS
 
 
+def _split_X_y(df, y_col=None, scale_y=True):
+    """
+    Split the given DataFrame in X and y.
+
+    X is a matrix which contains the explanatory variables of `df`, y is a vector which contains the response variable of
+    `df` (i.e. the variable that is the target of prediction analysis tasks).
+    Optionally, the values in y can be scaled.
+
+    This function is an auxiliary utility for the processing functions. It is meant to be private in the module.
+
+    Parameters
+    ----------
+    df: pd.DataFrame
+    y_col: str
+        Indicates which is the `df` column that is the response feature.
+        If is None, the last `df` column is considered.
+    scale_y: bool
+        Indicates wheter scale or not the values in y.
+
+    Returns
+    ----------
+    X: np.array
+        Two-dimensional np.array, containing the explanatory features of `df`.
+    y: np.array
+        Mono dimensional np.array, containing the response feature of `df`.
+
+    Notes
+    ----------
+    The scaling of the values in y is performed using the sklearn MinMaxScaler.
+    """
+    if y_col is None:
+        y_col = df.columns[-1]
+
+    y = df[y_col].values # Numpy vector y
+    X = df.drop([y_col],axis=1).values # Numpy matrix X
+
+    if scale_y: # Scale the y
+        scaler= MinMaxScaler()
+        scaler.fit(y.reshape(y.shape[0],1))
+        y = scaler.transform(y.reshape(y.shape[0],1)).reshape(y.shape[0],)
+
+    return X,y
+
+
 def add_timeSeries_dataframe(df, df_other, y_col=None, scale_y=True):
     """
     Add to a time series DataFrame another time series DataFrame.
@@ -364,12 +407,12 @@ def add_timeSeries_dataframe(df, df_other, y_col=None, scale_y=True):
 
     See Also
     ----------
-    model_selection.split_X_y: splits a DataFrame into X and y.
+    _split_X_y: splits a DataFrame into X and y.
     """
     df_other = df_other.loc[df.index]
     df =  pd.concat([df,df_other],axis=1)
 
-    X,y = split_X_y(df,y_col,scale_y=scale_y)
+    X,y = _split_X_y(df,y_col,scale_y=scale_y)
 
     return df,X,y
 
@@ -420,7 +463,7 @@ def add_k_previous_days(df, col_name, k, y_col=None, scale_y=True):
 
     See Also
     ----------
-    model_selection.split_X_y: splits a DataFrame into X and y.
+    _split_X_y: splits a DataFrame into X and y.
     """
 
     if len(find_missing_days(df.index))>0: # In df there isn't a contigous sequence of days
@@ -442,7 +485,7 @@ def add_k_previous_days(df, col_name, k, y_col=None, scale_y=True):
 
         df_new = pd.concat([df_new,df_to_add],axis=1) # Add the new column
 
-    X,y = split_X_y(df_new, y_col, scale_y=scale_y)
+    X,y = _split_X_y(df_new, y_col, scale_y=scale_y)
 
     return df_new,X,y
 
@@ -557,7 +600,7 @@ def add_k_years_ago_statistics(df, df_k_years_ago, k=1, days_to_select=11, stat=
     See Also
     ----------
     find_k_years_ago_days: returns, given a day, the selected days of k years ago.
-    model_selection.split_X_y: splits a DataFrame into X and y.
+    _split_X_y: splits a DataFrame into X and y.
 
     Notes
     ----------
@@ -646,7 +689,7 @@ def add_k_years_ago_statistics(df, df_k_years_ago, k=1, days_to_select=11, stat=
                                                                  else col)
     df.columns = pd.io.parsers.ParserBase({'names':df.columns})._maybe_dedup_names(df.columns)
 
-    X,y = split_X_y(df,y_col,scale_y=scale_y)
+    X,y = _split_X_y(df,y_col,scale_y=scale_y)
 
     return df, X, y
 
@@ -767,7 +810,7 @@ def add_current_year_statistics(df, df_current_year, days_to_select=11, current_
     See Also
     ----------
     find_current_year_days: returns, given a day, the selected preceding days of the same year.
-    model_selection.split_X_y: splits a DataFrame into X and y.
+    _split_X_y: splits a DataFrame into X and y.
 
     Notes
     ----------
@@ -872,7 +915,7 @@ def add_current_year_statistics(df, df_current_year, days_to_select=11, current_
                                                                  else col)
     df.columns = pd.io.parsers.ParserBase({'names':df.columns})._maybe_dedup_names(df.columns)
 
-    X,y = split_X_y(df,y_col,scale_y=scale_y)
+    X,y = _split_X_y(df,y_col,scale_y=scale_y)
 
     return df, X, y
 
@@ -1000,7 +1043,7 @@ def add_upTo_k_years_ago_statistics(df, df_upTo_k_years_ago, k=1, current_year=T
     add_current_year_statistics:
         adds, to a time series DataFrame, statistics computed on the other given time series
         DataFrame, with respect to the preceding days of the same year.
-    model_selection.split_X_y: splits a DataFrame into X and y.
+    _split_X_y: splits a DataFrame into X and y.
 
     Notes
     ----------
@@ -1085,6 +1128,6 @@ def add_upTo_k_years_ago_statistics(df, df_upTo_k_years_ago, k=1, current_year=T
                                                                  else col)
     df.columns = pd.io.parsers.ParserBase({'names':df.columns})._maybe_dedup_names(df.columns)
 
-    X,y = split_X_y(df,y_col,scale_y=scale_y)
+    X,y = _split_X_y(df,y_col,scale_y=scale_y)
 
     return df, X, y
