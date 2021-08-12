@@ -25,10 +25,10 @@ pip install timeSeries-processing
 ```
 
 ## References
-- [numpy](https://numpy.org/), the fundamental package for scientific computing with Python.
 - [matplotlib](https://matplotlib.org/stable/index.html) is a comprehensive library for creating static, animated, and interactive visualizations in Python.
 - [pandas](https://pandas.pydata.org/) is a fast, powerful, flexible and easy to use open source data analysis and manipulation tool,
 built on top of the Python programming language.
+- [sklearn](https://scikit-learn.org/stable/index.html), machine Learning in Python.
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
