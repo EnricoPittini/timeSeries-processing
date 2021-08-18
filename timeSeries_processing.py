@@ -107,7 +107,7 @@ def find_k_years_ago_days(day, k=1, n_days=11):
         Indicates which past year has to be considered (i.e. `k` years ago).
     n_days: int or str
         Indicates specifically which are the `k` years ago to select.
-            - If it's an int, it must be an odd positive number. The `n_days` centered in `day` but `k` years
+            - If it's an int, it must be an odd positive number. The `n_days` centered on `day` but `k` years
               ago are selected .
             - If it's a str, it must be either "month" or "season". All the days in the same month/season but
               `k` years ago are selected.
@@ -506,7 +506,7 @@ def add_k_years_ago_statistics(df, df_k_years_ago, k=1, days_to_select=11, stat=
 
     Let's describe that more specifically. Let 'day' be a row of `df`, and 'new_column' be one of the 'm' new columns created
     in the resulting DataFrame. The value put in that column for that day is computed from the associated column of
-    `df_k_years_ago` considering the days of `df_k_years_ago` that are centered in `day` but k years ago.
+    `df_k_years_ago` considering the days of `df_k_years_ago` that are centered on `day` but k years ago.
     (See the find_k_years_ago_days function).
     Once the `k` years ago days in `df_k_years_ago` are selected, an unique value for the new column 'new_column' and for
     the day 'day' is computed applying a certain statistical aggregation (specified by the input parameter `stat`) on the
@@ -935,8 +935,8 @@ def add_upTo_k_years_ago_statistics(df, df_upTo_k_years_ago, k=1, current_year=T
 
     Let 'day' be a row of `df`, and 'new_column' be one of the 'm' new columns created in the resulting DataFrame. The value
     put in that column for that day is computed from the associated column of `df_upTo_k_years_ago` considering the days of
-    `df_upTo_k_years_ago` that are centered in `day` but up to `k` years ago.
-    Let's see that more in depth. For each integer 'i' from 1 to `k`, the 'i' years ago days centered in 'day' and contained
+    `df_upTo_k_years_ago` that are centered on `day` but up to `k` years ago.
+    Let's see that more in depth. For each integer 'i' from 1 to `k`, the 'i' years ago days centered on 'day' and contained
     in `df_upTo_k_years_ago` are selected (see the find_k_years_ago_days function): from these selected 'i' years ago days,
     an unique value is computed applying a certain statistical aggregation (specified by the input parameter `stat`) on the
     values of these selected days in the column of `df_upTo_k_years_ago` associated to 'new_column'.
@@ -967,7 +967,7 @@ def add_upTo_k_years_ago_statistics(df, df_upTo_k_years_ago, k=1, current_year=T
     from `k` years ago. These `k`+1 values are aggregated in a single value.
     The value computed from the current year is calculated using the add_current_year_statistics function (see
     add_current_year_statistics).
-    The meaning of the input parameters `days_to_select`, `current_day`, `stat`, `replace_miss`, ..., are the same of the
+    The meaning of the input parameters `days_to_select`, `current_day`, `stat`, `replace_miss`, ..., are the same as the
     ones seen in add_current_year_statistics.
     (If `current_year` is True, add_current_year_statistics is applied one time and then add_k_years_ago_statistics is
     applied `k` times).
@@ -1009,7 +1009,7 @@ def add_upTo_k_years_ago_statistics(df, df_upTo_k_years_ago, k=1, current_year=T
         of the `k` computed values (`k`+1 if `current_year` is True).
     columns_to_select: list
         List of strings which indicates the columns of `df_upTo_k_years_ago` that have to be taken into account.
-        If is None, all the columns of `df_upTo_k_years_ago` are considered.
+        If it is None, all the columns of `df_upTo_k_years_ago` are considered.
     replace_miss: bool
         Indicates whether to fill the missing values.
     y_col: str
