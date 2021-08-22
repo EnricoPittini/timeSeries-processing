@@ -12,7 +12,7 @@ There are three groups of functions.
 2. Function to plot a time series (using [matplotlib](https://matplotlib.org/stable/index.html)).
 3. Processing functions.
 
-This library is part of my bachelor thesis, do check it out the other works.
+This library is part of my bachelor thesis, check out the other works.
 - [model-selection](https://github.com/EnricoPittini/model-selection)
 - [EEA-datasets-handler](https://github.com/EnricoPittini/EEA-datasets-handler)
 - [ILMETEO-datasets-handler](https://github.com/EnricoPittini/ILMETEO-datasets-handler)

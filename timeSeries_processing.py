@@ -270,7 +270,7 @@ def plot_timeSeries(df, col_name, divide=None, xlabel="Days", line=True, title="
         astronomical ones).
         That division is simply made graphically using different colors.
     xlabel: str
-        Label to put in the x axis.
+        Label to put on the x axis.
     line: bool
         Indicates whether to connect the points with a line.
     title: str
@@ -328,7 +328,7 @@ def plot_timeSeries(df, col_name, divide=None, xlabel="Days", line=True, title="
 # PROCESSING FUNCTIONS
 
 
-def _split_X_y(df, y_col=None, scale_y=True):
+def split_X_y(df, y_col=None, scale_y=True):
     """
     Split the given DataFrame into X and y.
 
@@ -336,14 +336,14 @@ def _split_X_y(df, y_col=None, scale_y=True):
     `df` (i.e. the variable which is the target of the prediction analysis tasks).
     Optionally, the values in y can be scaled.
 
-    This function is an auxiliary utility for the processing functions. It is meant to be private in the module.
+    This function is an auxiliary utility for the processing functions.
 
     Parameters
     ----------
     df: pd.DataFrame
     y_col: str
         Indicates which is the `df` column that is the response feature.
-        If is None, the last `df` column is considered.
+        If it is None, the last `df` column is considered.
     scale_y: bool
         Indicates whether to scale or not the values in y.
 
@@ -407,12 +407,12 @@ def add_timeSeries_dataframe(df, df_other, y_col=None, scale_y=True):
 
     See Also
     ----------
-    _split_X_y: splits a DataFrame into X and y.
+    split_X_y: splits a DataFrame into X and y.
     """
     df_other = df_other.loc[df.index]
     df =  pd.concat([df,df_other],axis=1)
 
-    X,y = _split_X_y(df,y_col,scale_y=scale_y)
+    X,y = split_X_y(df,y_col,scale_y=scale_y)
 
     return df,X,y
 
@@ -463,7 +463,7 @@ def add_k_previous_days(df, col_name, k, y_col=None, scale_y=True):
 
     See Also
     ----------
-    _split_X_y: splits a DataFrame into X and y.
+    split_X_y: splits a DataFrame into X and y.
     """
 
     if len(find_missing_days(df.index))>0: # In df there isn't a contigous sequence of days
@@ -485,7 +485,7 @@ def add_k_previous_days(df, col_name, k, y_col=None, scale_y=True):
 
         df_new = pd.concat([df_new,df_to_add],axis=1) # Add the new column
 
-    X,y = _split_X_y(df_new, y_col, scale_y=scale_y)
+    X,y = split_X_y(df_new, y_col, scale_y=scale_y)
 
     return df_new,X,y
 
@@ -504,7 +504,7 @@ def add_k_years_ago_statistics(df, df_k_years_ago, k=1, days_to_select=11, stat=
     index of `df`). These new `m` columns contain the values computed from the associated columns of `df_k_years_ago`
     considering the days of `k` years before the ones in `df`.
 
-    Let's describe that more specifically. Let 'day' be a row of `df`, and 'new_column' be one of the 'm' new columns created
+    Going into the details, let 'day' be a row of `df`, and 'new_column' be one of the 'm' new columns created
     in the resulting DataFrame. The value put in that column for that day is computed from the associated column of
     `df_k_years_ago` considering the days of `df_k_years_ago` that are centered on `day` but k years ago.
     (See the find_k_years_ago_days function).
@@ -525,9 +525,9 @@ def add_k_years_ago_statistics(df, df_k_years_ago, k=1, days_to_select=11, stat=
     Where:
         - `day` is the current day of `df` ;
         - `df` is the given DataFrame ;
-        - `k_years_ago_day` is the day of `k` years ago contained in `df_k_years_ago`;
+        - `day_k_years_ago` is the day of `k` years ago contained in `df_k_years_ago`;
         - `df_k_years_ago` is the other given DataFrame, containing days of `k` years ago.
-    The function returns True if and only if `k_years_ago_day` is a day that has to be selected for `day`.
+    The function returns True if and only if `day_k_years_ago` is a day that has to be selected for `day`.
 
     For a certain 'day' of `df` it could happen that no `k` years ago day is selected. This means that this 'day' has a
     missing value for each of the 'm' new columns (i.e. 'm' missing values).
@@ -559,7 +559,7 @@ def add_k_years_ago_statistics(df, df_k_years_ago, k=1, days_to_select=11, stat=
         Indicates, for each day of `df`, which `k` years ago days are selected in `df_k_years_ago`.
         It must either be an odd integer or "month" or "season" or a predicate (i.e. a function that returns a boolean).
         The function signature must be
-                (day: pd.TimeStamp, df: pd.DataFrame, k_years_ago_day: pd.TimeStamp, df_k_years_ago: pd.DataFrame): bool
+                (day: pd.TimeStamp, df: pd.DataFrame, day_k_years_ago: pd.TimeStamp, df_k_years_ago: pd.DataFrame): bool
     stat: str
         Indicates the statistical aggregation to perform, for each day of `df`, on the selected `k` years ago days of
         `df_k_years_ago`.
@@ -601,7 +601,7 @@ def add_k_years_ago_statistics(df, df_k_years_ago, k=1, days_to_select=11, stat=
     See Also
     ----------
     find_k_years_ago_days: returns, given a day, the selected days of k years ago.
-    _split_X_y: splits a DataFrame into X and y.
+    split_X_y: splits a DataFrame into X and y.
 
     Notes
     ----------
@@ -634,14 +634,18 @@ def add_k_years_ago_statistics(df, df_k_years_ago, k=1, days_to_select=11, stat=
              k_years_ago_days = find_k_years_ago_days(day, k, days_to_select) # Selected `k` years ago days (expected)
              expected_n_days = len(k_years_ago_days) # Number of these expected `k` years ago days
              # Actual `k` years ago days in `df_k_years_ago`
-             k_years_ago_days = k_years_ago_days[list(k_years_ago_days.map(lambda d: d in df_k_years_ago.index))]
+             k_years_ago_days = k_years_ago_days[list(k_years_ago_days.map(lambda day_k_years_ago: (day_k_years_ago in
+                                                                                                    df_k_years_ago.index) ))]
 
          else: # days_to_select is a function
              # Selected `k` years ago days (The ones filtered by the function)
              k_years_ago_days = df_k_years_ago.index[
-                                                    list(df_k_years_ago.index.map(lambda d:
-                                                                                    (days_to_select(day,df,d,df_k_years_ago)
-                                                                                    and d.year+k==day.year)
+                                                    list(df_k_years_ago.index.map(lambda day_k_years_ago: \
+                                                                                        (day_k_years_ago.year+k==day.year and
+                                                                                        days_to_select(day, df,
+                                                                                                         day_k_years_ago,
+                                                                                                         df_k_years_ago)
+                                                                                        )
                                                                                   )
                                                         )
                                                     ]
@@ -690,7 +694,7 @@ def add_k_years_ago_statistics(df, df_k_years_ago, k=1, days_to_select=11, stat=
                                                                  else col)
     df.columns = pd.io.parsers.ParserBase({'names':df.columns})._maybe_dedup_names(df.columns)
 
-    X,y = _split_X_y(df,y_col,scale_y=scale_y)
+    X,y = split_X_y(df,y_col,scale_y=scale_y)
 
     return df, X, y
 
@@ -709,7 +713,7 @@ def add_current_year_statistics(df, df_current_year, days_to_select=11, current_
     index of `df`). These new 'm' columns contain the values computed from the associated columns of `df_current_year`
     considering the preceding days of the same year with respect to the days in `df`.
 
-    Let's describe that more specifically. Let 'day' be a row of `df`, and 'new_column' be one of the 'm' new columns created
+    Going into the details, let 'day' be a row of `df`, and 'new_column' be one of the 'm' new columns created
     in the resulting DataFrame. The value put in that column for that day is computed from the associated column of
     `df_current_year` considering the preceding days of the same year, in `df_current_year`, that are centered in 'day'.
     (See the find_current_year_days function).
@@ -730,9 +734,9 @@ def add_current_year_statistics(df, df_current_year, days_to_select=11, current_
     Where:
         - `day` is the current day of `df` ;
         - `df` is the given DataFrame ;
-        - `current_year_day` is the preceding day of the same year contained in `df_current_year`;
+        - `day_current_year` is the preceding day of the same year contained in `df_current_year`;
         - `df_current_year` is the other given DataFrame, containing days of the same year.
-    The function returns True if and only if `current_year_day` is a day that has to be selected for `day`.
+    The function returns True if and only if `day_current_year` is a day that has to be selected for `day`.
 
     For a certain 'day' of `df` it could happen that no preceding day of the same year is selected. This means that this
     'day' has a missing value for each of the 'm' new columns (i.e. 'm' missing values).
@@ -767,7 +771,7 @@ def add_current_year_statistics(df, df_current_year, days_to_select=11, current_
         Indicates, for each day of `df`, which preceding days of the same year are selected in `df_current_year`.
         It must be either an integer or "month" or "season" or a predicate (i.e. a function that returns a boolean).
         The function signature must be
-                (day: pd.TimeStamp, df: pd.DataFrame, current_year_day: pd.TimeStamp, df_current_year: pd.DataFrame): bool
+                (day: pd.TimeStamp, df: pd.DataFrame, day_current_year: pd.TimeStamp, df_current_year: pd.DataFrame): bool
     current_day: bool
         Indicates if, each day of `df`, can be potentially selected for itself as a day of the same year.
     stat: str
@@ -809,7 +813,7 @@ def add_current_year_statistics(df, df_current_year, days_to_select=11, current_
     See Also
     ----------
     find_current_year_days: returns, given a day, the selected preceding days of the same year.
-    _split_X_y: splits a DataFrame into X and y.
+    split_X_y: splits a DataFrame into X and y.
 
     Notes
     ----------
@@ -844,20 +848,23 @@ def add_current_year_statistics(df, df_current_year, days_to_select=11, current_
              current_year_days = find_current_year_days(day, days_to_select, current_day) # Same year days (expected)
              expected_n_days = len(current_year_days) # Number of these expected same year days
              # Actual same year days in `df_current_year`
-             current_year_days = current_year_days[list(current_year_days.map(lambda d: d in df_current_year.index))]
+             current_year_days = current_year_days[list(current_year_days.map(lambda day_current_year: (day_current_year in
+                                                                                                df_current_year.index) ))]
 
-         else: # days_to_select it's a function
+         else: # days_to_select is a function
              # Selected same year days (The ones filtered by the function)
              current_year_days = df_current_year.index[
-                                                        list(df_current_year.index.map(lambda d: (d<day and
-                                                                                                  d.year==day.year and
-                                                                                                  days_to_select(day,df,d,
-                                                                                                  df_current_year)
-                                                                                                  )
+                                                        list(df_current_year.index.map(lambda day_current_year: \
+                                                                                          (day_current_year<day and
+                                                                                          day_current_year.year==day.year and
+                                                                                          days_to_select(day, df,
+                                                                                                         day_current_year,
+                                                                                                         df_current_year)
+                                                                                          )
                                                                                         )
                                                              )
                                                        ]
-             if current_day and days_to_select(day,df,day,df_current_year):
+             if current_day and days_to_select(day, df, day, df_current_year):
                  current_year_days.append(pd.Series([day]))
 
          if len(current_year_days)==0: # No same year day has been found
@@ -914,7 +921,7 @@ def add_current_year_statistics(df, df_current_year, days_to_select=11, current_
                                                                  else col)
     df.columns = pd.io.parsers.ParserBase({'names':df.columns})._maybe_dedup_names(df.columns)
 
-    X,y = _split_X_y(df,y_col,scale_y=scale_y)
+    X,y = split_X_y(df,y_col,scale_y=scale_y)
 
     return df, X, y
 
@@ -936,7 +943,7 @@ def add_upTo_k_years_ago_statistics(df, df_upTo_k_years_ago, k=1, current_year=T
     Let 'day' be a row of `df`, and 'new_column' be one of the 'm' new columns created in the resulting DataFrame. The value
     put in that column for that day is computed from the associated column of `df_upTo_k_years_ago` considering the days of
     `df_upTo_k_years_ago` that are centered on `day` but up to `k` years ago.
-    Let's see that more in depth. For each integer 'i' from 1 to `k`, the 'i' years ago days centered on 'day' and contained
+    Going into the details, for each integer 'i' from 1 to `k`, the 'i' years ago days centered on 'day' and contained
     in `df_upTo_k_years_ago` are selected (see the find_k_years_ago_days function): from these selected 'i' years ago days,
     an unique value is computed applying a certain statistical aggregation (specified by the input parameter `stat`) on the
     values of these selected days in the column of `df_upTo_k_years_ago` associated to 'new_column'.
@@ -959,7 +966,7 @@ def add_upTo_k_years_ago_statistics(df, df_upTo_k_years_ago, k=1, current_year=T
     selected, for 'i' from 1 to `k`. It can either be an odd integer or "month" or "season" or a predicate (i.e. a function
     that returns a bool).
     The signature of the function must be:
-        (day: pd.TimeStamp, df: pd.DataFrame, i_years_ago_day: pd.TimeStamp, df_k_years_ago: pd.DataFrame): bool.
+        (day: pd.TimeStamp, df: pd.DataFrame, day_i_years_ago: pd.TimeStamp, df_upTo_k_years_ago: pd.DataFrame): bool.
 
     If `current_year` is True, also the current year is taken into account, and not only the preceding years up to `k` years
     ago.
@@ -1042,7 +1049,7 @@ def add_upTo_k_years_ago_statistics(df, df_upTo_k_years_ago, k=1, current_year=T
     add_current_year_statistics:
         adds, to a time series DataFrame, statistics computed on the other given time series
         DataFrame, with respect to the preceding days of the same year.
-    _split_X_y: splits a DataFrame into X and y.
+    split_X_y: splits a DataFrame into X and y.
 
     Notes
     ----------
@@ -1127,6 +1134,6 @@ def add_upTo_k_years_ago_statistics(df, df_upTo_k_years_ago, k=1, current_year=T
                                                                  else col)
     df.columns = pd.io.parsers.ParserBase({'names':df.columns})._maybe_dedup_names(df.columns)
 
-    X,y = _split_X_y(df,y_col,scale_y=scale_y)
+    X,y = split_X_y(df,y_col,scale_y=scale_y)
 
     return df, X, y
