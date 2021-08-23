@@ -16,6 +16,7 @@ This library is part of my bachelor thesis, check out the other works.
 - [model-selection](https://github.com/EnricoPittini/model-selection)
 - [EEA-datasets-handler](https://github.com/EnricoPittini/EEA-datasets-handler)
 - [ILMETEO-datasets-handler](https://github.com/EnricoPittini/ILMETEO-datasets-handler)
+- [Air-quality-prediction](https://github.com/EnricoPittini/Air-quality-prediction)
 
 ## Installation
 Use the package manager [pip](https://pip.pypa.io/en/stable/) to install timeSeries-processing.
