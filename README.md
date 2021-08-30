@@ -7,7 +7,7 @@ This library is part of my bachelor thesis, check out the other works.
 - [ILMETEO-datasets-handler](https://github.com/EnricoPittini/ILMETEO-datasets-handler)
 - [Air-quality-prediction](https://github.com/EnricoPittini/Air-quality-prediction)
 
-# Description
+## Description
 The supported time series are daily time series, which means that the dates are always days.
 
 ### Purpose
