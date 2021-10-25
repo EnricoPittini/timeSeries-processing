@@ -1,5 +1,5 @@
 # timeSeries-processing
-Library which processes time series datasets.
+Library for processing time series datasets.
 
 This library is part of my bachelor thesis, check out the other works.
 - [model-selection](https://github.com/EnricoPittini/model-selection)
@@ -57,6 +57,28 @@ Use the package manager [pip](https://pip.pypa.io/en/stable/) to install timeSer
 
 ```bash
 pip install timeSeries-processing
+```
+
+## Main usage
+
+```python
+import timeSeries_processing as tsp
+
+# Add, to the time series DataFrame ts_df, features containing values of the specified column "col" but related to the 7
+# previous days.
+ts_df_new, X, y = tsp.add_k_previous_days(ts_df, col_name="col", k=7)
+
+# Add, to the time series DataFrame ts_df, statistics computed on the other given time series DataFrame ts_df_last_year, but
+# with respect to the days of the previous year.
+ts_df_new, X, y = tsp.add_k_years_ago_statistics(ts_df, ts_df_last_year, k=1)
+
+# Add, to the time series DataFrame ts_df, statistics computed on the other given time series DataFrame ts_df_curr_year, with
+# respect to the preceding days of the same year.
+ts_df_new, X, y = tsp.add_current_year_statistics(ts_df, ts_df_curr_year)
+
+# Add, to the time series DataFrame ts_df, statistics computed on the other given time series DataFrame ts_df_3_years_ago,
+# but with respect to the days of up to 3 years ago.
+ts_df_new, X, y = tsp.add_upTo_k_years_ago_statistics(ts_df, ts_df_3_years_ago, k=3)
 ```
 
 ## References
